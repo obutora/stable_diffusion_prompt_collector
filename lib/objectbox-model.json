@@ -1,0 +1,64 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:4888450850669118575",
+      "lastPropertyId": "8:5226793407523698298",
+      "name": "PromptData",
+      "properties": [
+        {
+          "id": "1:8565462233576636592",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1335178895414573456",
+          "name": "prompt",
+          "type": 9
+        },
+        {
+          "id": "3:5836349245406465571",
+          "name": "updateAt",
+          "type": 10
+        },
+        {
+          "id": "5:1107802176169420012",
+          "name": "rate",
+          "type": 8
+        },
+        {
+          "id": "6:5908225423236260200",
+          "name": "isImg2Img",
+          "type": 1
+        },
+        {
+          "id": "7:7144677852075345695",
+          "name": "parentImgUrl",
+          "type": 9
+        },
+        {
+          "id": "8:5226793407523698298",
+          "name": "imgUrlList",
+          "type": 30
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:4888450850669118575",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    2243660603538069849
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}
