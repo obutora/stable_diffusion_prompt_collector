@@ -13,6 +13,20 @@ class TempPromptNotifier extends StateNotifier<PromptData> {
               parentImgUrl: ''),
         );
 
+  void clear() {
+    state = PromptData(
+        prompt: '',
+        updateAt: DateTime.now(),
+        imgUrlList: [],
+        rate: 0,
+        isImg2Img: false,
+        parentImgUrl: '');
+  }
+
+  void changeIsImg2Img() {
+    state = state.copyWith(isImg2Img: !state.isImg2Img);
+  }
+
   void updatePrompt(String prompt) {
     state = state.copyWith(prompt: prompt);
   }
@@ -31,6 +45,10 @@ class TempPromptNotifier extends StateNotifier<PromptData> {
     imgList.remove(imgUrl);
 
     state = state.copyWith(imgUrlList: imgList);
+  }
+
+  void deleteParentImgUrl() {
+    state = state.copyWith(parentImgUrl: '');
   }
 
   void updateNowTime() {

@@ -35,4 +35,8 @@ class PromptData {
         isImg2Img: isImg2Img ?? this.isImg2Img,
         parentImgUrl: parentImgUrl ?? this.parentImgUrl);
   }
+
+  @override
+  String toString() =>
+      '\nPromptData(id: $id, isImg2Img: $isImg2Img, imgUrlList: $imgUrlList, parentImgUrl: $parentImgUrl)\n';
 }

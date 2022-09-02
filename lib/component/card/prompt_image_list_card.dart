@@ -5,24 +5,30 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stable_diffusion_prompt_collector/component/card/catch_image_card.dart';
 import 'package:stable_diffusion_prompt_collector/provider/temp_prompt_data_provider.dart';
-import 'package:stable_diffusion_prompt_collector/usecase/image_file.dart';
+import 'package:stable_diffusion_prompt_collector/usecaseInteractor/prompt_file_interactor.dart';
+import 'package:stable_diffusion_prompt_collector/usecaseInteractor/temp_prompt_interactor.dart';
 
 class PromptImageListCard extends ConsumerWidget {
-  const PromptImageListCard({
-    Key? key,
-  }) : super(key: key);
+  const PromptImageListCard({Key? key, required this.isImg2Img})
+      : super(key: key);
+
+  final bool isImg2Img;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tempPrompt = ref.watch(tempPromptProvider);
     final tempPromptNotifier = ref.watch(tempPromptProvider.notifier);
 
-    if (tempPrompt.imgUrlList.isEmpty) {
-      return const CatchImageCard();
+    final bool isExistImg = TempPromptInteractor.checkExistImgUrl(
+        data: tempPrompt, isImg2Img: isImg2Img);
+
+    if (!isExistImg) {
+      return CatchImageCard(isImg2Img: isImg2Img);
     } else {
-      final files =
-          ImageFileUseCase.getImageFilesFromPathList(tempPrompt.imgUrlList);
-      // return Image.file(files[0]);
+      final files = PromptFileInteractor.getImageFileListFromPromptData(
+        data: tempPrompt,
+        isImg2Img: isImg2Img,
+      );
       return Wrap(
         spacing: 8,
         runSpacing: 8,
@@ -47,7 +53,12 @@ class PromptImageListCard extends ConsumerWidget {
                             ),
                             child: IconButton(
                               onPressed: () {
-                                tempPromptNotifier.deleteImgUrl(file.path);
+                                // tempPromptNotifier.deleteImgUrl(file.path);
+                                TempPromptInteractor.removeImageFromTempPrompt(
+                                  notifier: tempPromptNotifier,
+                                  isImg2Img: isImg2Img,
+                                  path: file.path,
+                                );
                               },
                               icon: const Icon(
                                 CupertinoIcons.xmark_circle,
@@ -58,7 +69,7 @@ class PromptImageListCard extends ConsumerWidget {
                     ],
                   ))
               .toList(),
-          const CatchImageCard()
+          CatchImageCard(isImg2Img: isImg2Img)
         ],
       );
     }

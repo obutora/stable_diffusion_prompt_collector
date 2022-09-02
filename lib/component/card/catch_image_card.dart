@@ -1,37 +1,33 @@
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:stable_diffusion_prompt_collector/usecaseInteractor/temp_prompt_interactor.dart';
 
 import '../../provider/temp_prompt_data_provider.dart';
-import '../../usecase/prompt_usecase.dart';
 import '../theme/colors.dart';
 
 class CatchImageCard extends ConsumerWidget {
   const CatchImageCard({
     Key? key,
+    required this.isImg2Img,
   }) : super(key: key);
+
+  final bool isImg2Img;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tempPrompt = ref.watch(tempPromptProvider);
+    // final tempPrompt = ref.watch(tempPromptProvider);
     final tempPromptNotifier = ref.watch(tempPromptProvider.notifier);
 
     return DropTarget(
       onDragEntered: ((details) {}),
       onDragDone: ((details) async {
-        final fileNames = details.files.map((e) => e.path).toList();
-        print(fileNames);
-        tempPromptNotifier.addImgUrlList(fileNames);
-        PromptUseCase.addDrugImageDetailesToPromptBoxProperty(
-            details, tempPrompt);
-
-        // for (var file in details.files) {
-        //   final fileData =
-        //       await ImageFileUseCase.getImageFileFromAssets(
-        //           file.path);
-        //   tempImageFileList.value.add(fileData);
-        //   print(tempImageFileList.value);
-        // }
+        final pathList = details.files.map((e) => e.path).toList();
+        // tempPromptNotifier.addImgUrlList(pathList);
+        await TempPromptInteractor.addImageToTempPrompt(
+            notifier: tempPromptNotifier,
+            isImg2Img: isImg2Img,
+            pathList: pathList);
       }),
       child: Container(
         padding: const EdgeInsets.all(8),
