@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stable_diffusion_prompt_collector/component/screen/home_screen.dart';
+import 'package:stable_diffusion_prompt_collector/component/screen/view_screen.dart';
 import 'package:stable_diffusion_prompt_collector/component/theme/colors.dart';
 import 'package:stable_diffusion_prompt_collector/entity/objectBox/promptBox.dart';
 
@@ -63,6 +64,10 @@ class MyApp extends StatelessWidget {
                 fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
           )),
       home: const HomeScreen(),
+      routes: {
+        HomeScreen.id: (context) => const HomeScreen(),
+        ViewScreen.id: (context) => const ViewScreen()
+      },
     );
   }
 }

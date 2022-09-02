@@ -21,7 +21,7 @@ class ImageFileUseCase {
     for (String path in pathList) {
       final String name = path.split('\\').last;
       // fileをローカルにコピー
-      File(path).copy('assets/promptImg/$name');
+      File(path).copySync('assets/promptImg/$name');
       savedPathList.add('assets/promptImg/$name');
     }
 
