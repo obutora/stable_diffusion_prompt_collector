@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:stable_diffusion_prompt_collector/component/scaffold/standard_scaffold.dart';
 import 'package:stable_diffusion_prompt_collector/entity/objectBox/promptBox.dart';
 import 'package:stable_diffusion_prompt_collector/entity/prompt_data.dart';
@@ -29,7 +31,8 @@ class ViewScreen extends StatelessWidget {
             .map((PromptData data) => Container(
                   padding: const EdgeInsets.all(20),
                   margin: const EdgeInsets.only(bottom: 16),
-                  decoration: const BoxDecoration(color: zinc900),
+                  decoration: BoxDecoration(
+                      color: zinc900, borderRadius: BorderRadius.circular(12)),
                   child: Row(
                     children: [
                       Expanded(
@@ -49,6 +52,7 @@ class ViewScreen extends StatelessWidget {
                                               .caption!
                                               .copyWith(color: white400),
                                         ),
+                                        const SizedBox(height: 4),
                                         Image.file(
                                           ImageFileUseCase
                                               .getImageFileFromAssets(
@@ -59,7 +63,7 @@ class ViewScreen extends StatelessWidget {
                                     )
                                   : const SizedBox(),
                               const SizedBox(
-                                height: 20,
+                                height: 28,
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,6 +75,9 @@ class ViewScreen extends StatelessWidget {
                                         .caption!
                                         .copyWith(color: white400),
                                   ),
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
                                   SelectableText(data.prompt,
                                       style: Theme.of(context)
                                           .textTheme
@@ -78,18 +85,59 @@ class ViewScreen extends StatelessWidget {
                                           .copyWith(color: white200)),
                                 ],
                               ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              OutlinedButton.icon(
+                                  style: OutlinedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      foregroundColor: Colors.indigoAccent,
+                                      backgroundColor: zinc500,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 8)),
+                                  onPressed: () async {
+                                    final clip =
+                                        ClipboardData(text: data.prompt);
+
+                                    await Clipboard.setData(clip);
+                                  },
+                                  icon: const Icon(
+                                    CupertinoIcons
+                                        .rectangle_fill_on_rectangle_fill,
+                                    color: white200,
+                                  ),
+                                  label: Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(4, 8, 4, 4),
+                                    child: Text(
+                                      'Copy Prompt',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .button!
+                                          .copyWith(color: white200),
+                                    ),
+                                  ))
                             ],
                           )),
+                      const SizedBox(
+                        width: 20,
+                      ),
                       Expanded(
                         flex: 256,
                         child: Wrap(
                           alignment: WrapAlignment.start,
                           runAlignment: WrapAlignment.start,
+                          spacing: 12,
+                          runSpacing: 12,
                           children: data.imgUrlList
                               .map(
                                 (String path) => Image.file(
                                   ImageFileUseCase.getImageFileFromAssets(path),
                                   height: 200,
+                                  width: 200,
+                                  fit: BoxFit.cover,
                                 ),
                               )
                               .toList(),
