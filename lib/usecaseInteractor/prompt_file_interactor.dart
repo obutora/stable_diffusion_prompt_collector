@@ -17,5 +17,13 @@ class PromptFileInteractor {
     }
   }
 
+  static void removeImgFile(PromptData data) {
+    ImageFileUseCase.removeFileByPathList(data.imgUrlList);
+
+    if (data.isImg2Img) {
+      ImageFileUseCase.removeFile(data.parentImgUrl!);
+    }
+  }
+
   // static void add
 }

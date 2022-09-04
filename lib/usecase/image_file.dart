@@ -1,5 +1,7 @@
 import 'dart:io';
 
+const String saveFolder = 'assets/promptImg/';
+
 class ImageFileUseCase {
   static File getImageFileFromAssets(String path) {
     return File(path);
@@ -21,10 +23,21 @@ class ImageFileUseCase {
     for (String path in pathList) {
       final String name = path.split('\\').last;
       // fileをローカルにコピー
-      File(path).copySync('assets/promptImg/$name');
-      savedPathList.add('assets/promptImg/$name');
+      File(path).copySync('$saveFolder$name');
+      savedPathList.add('$saveFolder$name');
     }
 
     return savedPathList;
+  }
+
+  static void removeFile(String path) {
+    final dir = Directory(path);
+    dir.deleteSync(recursive: true);
+  }
+
+  static void removeFileByPathList(List<String> pathList) {
+    for (String path in pathList) {
+      removeFile(path);
+    }
   }
 }

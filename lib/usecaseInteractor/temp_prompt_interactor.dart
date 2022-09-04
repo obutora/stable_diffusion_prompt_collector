@@ -2,6 +2,7 @@ import 'package:stable_diffusion_prompt_collector/entity/objectBox/promptBox.dar
 import 'package:stable_diffusion_prompt_collector/entity/prompt_data.dart';
 import 'package:stable_diffusion_prompt_collector/provider/temp_prompt_data_provider.dart';
 import 'package:stable_diffusion_prompt_collector/usecase/image_file.dart';
+import 'package:stable_diffusion_prompt_collector/usecaseInteractor/prompt_file_interactor.dart';
 
 class TempPromptInteractor {
   static Future addImageToTempPrompt({
@@ -57,5 +58,18 @@ class TempPromptInteractor {
     );
 
     PromptBox.add(newData);
+  }
+
+  static void removePromptAndFile({
+    required PromptData data,
+    required TempPromptNotifier notifier,
+  }) {
+    // imageFileの削除
+    PromptFileInteractor.removeImgFile(data);
+
+    // box の削除
+    PromptBox.remove(data.id);
+
+    //Stateの削除
   }
 }
