@@ -4,10 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stable_diffusion_prompt_collector/component/scaffold/standard_scaffold.dart';
 import 'package:stable_diffusion_prompt_collector/component/textField/prompt_text_field.dart';
 import 'package:stable_diffusion_prompt_collector/error_boundary/can_add_prompt.dart';
-import 'package:stable_diffusion_prompt_collector/usecase/prompt_usecase.dart';
-import 'package:stable_diffusion_prompt_collector/usecaseInteractor/temp_prompt_interactor.dart';
 
 import '../../provider/temp_prompt_data_provider.dart';
+import '../../usecase/prompt_usecase.dart';
+import '../../usecaseInteractor/temp_prompt_interactor.dart';
 import '../card/prompt_image_list_card.dart';
 import '../theme/button_style.dart';
 import '../theme/colors.dart';
@@ -107,6 +107,34 @@ class HomeScreen extends HookConsumerWidget {
             if (canAdd == CanAddPrompt.ok) {
               TempPromptInteractor.addBox(data: tempPrompt);
               tempPromptNotifier.clear();
+
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  backgroundColor: zinc800,
+                  title: Text(
+                    'add prompt was success!',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6!
+                        .copyWith(color: white200),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'O K',
+                        style: Theme.of(context)
+                            .textTheme
+                            .button!
+                            .copyWith(color: Colors.indigoAccent),
+                      ),
+                    ),
+                  ],
+                ),
+              );
             }
           },
           child: Padding(

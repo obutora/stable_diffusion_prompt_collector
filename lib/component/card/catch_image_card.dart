@@ -18,16 +18,23 @@ class CatchImageCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // final tempPrompt = ref.watch(tempPromptProvider);
     final tempPromptNotifier = ref.watch(tempPromptProvider.notifier);
+    bool isloading = false;
 
     return DropTarget(
       onDragEntered: ((details) {}),
       onDragDone: ((details) async {
-        final pathList = details.files.map((e) => e.path).toList();
-        // tempPromptNotifier.addImgUrlList(pathList);
-        await TempPromptInteractor.addImageToTempPrompt(
-            notifier: tempPromptNotifier,
-            isImg2Img: isImg2Img,
-            pathList: pathList);
+        if (isloading == false) {
+          isloading = true;
+
+          final pathList = details.files.map((e) => e.path).toList();
+          // tempPromptNotifier.addImgUrlList(pathList);
+          await TempPromptInteractor.addImageToTempPrompt(
+              notifier: tempPromptNotifier,
+              isImg2Img: isImg2Img,
+              pathList: pathList);
+
+          isloading = false;
+        }
       }),
       child: Container(
         padding: const EdgeInsets.all(8),
