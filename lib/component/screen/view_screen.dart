@@ -3,22 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stable_diffusion_prompt_collector/component/scaffold/standard_scaffold.dart';
+import 'package:stable_diffusion_prompt_collector/component/textField/standard_text_field.dart';
 import 'package:stable_diffusion_prompt_collector/entity/objectBox/promptBox.dart';
 import 'package:stable_diffusion_prompt_collector/entity/prompt_data.dart';
+import 'package:stable_diffusion_prompt_collector/provider/search_word_provider.dart';
 import 'package:stable_diffusion_prompt_collector/provider/temp_prompt_data_provider.dart';
 import 'package:stable_diffusion_prompt_collector/usecase/image_file.dart';
 import 'package:stable_diffusion_prompt_collector/usecaseInteractor/temp_prompt_interactor.dart';
 
 import '../theme/colors.dart';
 
-class ViewScreen extends ConsumerWidget {
+class ViewScreen extends HookConsumerWidget {
   static const String id = 'ViewScreen';
   const ViewScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.watch(tempPromptProvider.notifier);
-    final List<PromptData> dataList = PromptBox.getAll();
+    // final List<PromptData> dataList = PromptBox.getAll();
+    final searchWord = ref.watch(searchWordProvider);
+    final searchWordNotifier = ref.watch(searchWordProvider.notifier);
+
+    final List<PromptData> dataList = PromptBox.searchByPrompt(searchWord);
 
     return StandardScaffold(
       children: [
@@ -30,6 +36,31 @@ class ViewScreen extends ConsumerWidget {
           'You can view and search your saved Prompts.',
           style: Theme.of(context).textTheme.caption!.copyWith(color: white400),
         ),
+        StandardTextField(
+            hintText: 'search words',
+            onChange: (String word) {
+              searchWordNotifier.change(word);
+            }),
+        searchWord.isNotEmpty
+            ? Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.indigoAccent),
+                    onPressed: () => searchWordNotifier.clear(),
+                    icon: const Icon(CupertinoIcons.clear),
+                    label: Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Text(
+                        'Clear Search Word',
+                        style: Theme.of(context)
+                            .textTheme
+                            .button!
+                            .copyWith(color: white200),
+                      ),
+                    )),
+              )
+            : const SizedBox(),
         const SizedBox(height: 40),
         dataList.isEmpty
             ? Text(
@@ -109,7 +140,11 @@ class ViewScreen extends ConsumerWidget {
                                                         BorderRadius.circular(
                                                             8)),
                                                 child: TextButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    //NOTE : prompt button
+                                                    searchWordNotifier
+                                                        .change(word);
+                                                  },
                                                   child: Text(
                                                     word,
                                                     style: Theme.of(context)

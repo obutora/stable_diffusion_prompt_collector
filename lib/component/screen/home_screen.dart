@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stable_diffusion_prompt_collector/component/scaffold/standard_scaffold.dart';
-import 'package:stable_diffusion_prompt_collector/component/textField/prompt_text_field.dart';
+import 'package:stable_diffusion_prompt_collector/component/textField/standard_text_field.dart';
 import 'package:stable_diffusion_prompt_collector/error_boundary/can_add_prompt.dart';
 
 import '../../provider/temp_prompt_data_provider.dart';
@@ -89,7 +89,8 @@ class HomeScreen extends HookConsumerWidget {
           style: Theme.of(context).textTheme.headline5,
         ),
         const SizedBox(height: 8),
-        PromptTextField(
+        StandardTextField(
+          hintText: 'ex: Photo of foo.',
           onChange: (String prompt) {
             tempPromptNotifier.updatePrompt(prompt);
           },

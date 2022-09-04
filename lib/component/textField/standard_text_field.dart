@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
 
-class PromptTextField extends StatelessWidget {
-  const PromptTextField({
+class StandardTextField extends StatelessWidget {
+  const StandardTextField({
     Key? key,
+    required this.hintText,
     required this.onChange,
   }) : super(key: key);
 
+  final String hintText;
   final Function onChange;
 
   @override
@@ -27,7 +29,7 @@ class PromptTextField extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(12)),
             borderSide: BorderSide(color: Colors.indigoAccent, width: 2),
           ),
-          hintText: 'ex: Photo of foo.',
+          hintText: hintText,
           hintStyle:
               Theme.of(context).textTheme.caption!.copyWith(color: white400)),
     );

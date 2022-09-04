@@ -27,4 +27,18 @@ class PromptBox {
   static List<PromptData> getAll() {
     return box.getAll();
   }
+
+  static List<PromptData> searchByPrompt(String word) {
+    // , は無駄な情報なのでここで削除しておく
+    word = word.replaceAll(',', '');
+
+    final query = (box.query(PromptData_.prompt.contains(word))
+          ..order(PromptData_.updateAt))
+        .build();
+
+    final result = query.find();
+    query.close();
+
+    return result;
+  }
 }
