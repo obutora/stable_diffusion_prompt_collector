@@ -127,7 +127,7 @@ class ViewScreen extends HookConsumerWidget {
                                     ),
                                     Wrap(children: [
                                       ...data.prompt
-                                          .split(' ')
+                                          .split(',')
                                           .map(
                                             (String word) => Container(
                                                 margin:
@@ -157,13 +157,6 @@ class ViewScreen extends HookConsumerWidget {
                                           )
                                           .toList(),
                                     ])
-                                    // SelectableText(
-                                    //   data.prompt,
-                                    //   style: Theme.of(context)
-                                    //       .textTheme
-                                    //       .bodyText1!
-                                    //       .copyWith(color: white200),
-                                    // ),
                                   ],
                                 ),
                                 const SizedBox(

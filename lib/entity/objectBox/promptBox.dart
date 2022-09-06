@@ -33,7 +33,7 @@ class PromptBox {
     word = word.replaceAll(',', '');
 
     final query = (box.query(PromptData_.prompt.contains(word))
-          ..order(PromptData_.updateAt))
+          ..order(PromptData_.updateAt, flags: Order.descending))
         .build();
 
     final result = query.find();
