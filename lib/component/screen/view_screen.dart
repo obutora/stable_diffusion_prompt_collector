@@ -11,6 +11,7 @@ import 'package:stable_diffusion_prompt_collector/provider/temp_prompt_data_prov
 import 'package:stable_diffusion_prompt_collector/usecase/image_file.dart';
 import 'package:stable_diffusion_prompt_collector/usecaseInteractor/temp_prompt_interactor.dart';
 
+import '../image/prompt_image.dart';
 import '../theme/colors.dart';
 
 class ViewScreen extends HookConsumerWidget {
@@ -113,16 +114,12 @@ class ViewScreen extends HookConsumerWidget {
                             Wrap(
                               alignment: WrapAlignment.start,
                               runAlignment: WrapAlignment.start,
-                              spacing: 12,
-                              runSpacing: 12,
+                              spacing: 8,
+                              runSpacing: 8,
                               children: data.imgUrlList
                                   .map(
-                                    (String path) => Image.file(
-                                      ImageFileUseCase.getImageFileFromAssets(
-                                          path),
-                                      height: 200,
-                                      width: 200,
-                                      fit: BoxFit.cover,
+                                    (String path) => PromptImage(
+                                      path: path,
                                     ),
                                   )
                                   .toList(),
