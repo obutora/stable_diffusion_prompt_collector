@@ -79,214 +79,200 @@ class ViewScreen extends HookConsumerWidget {
                     decoration: BoxDecoration(
                         color: zinc900,
                         borderRadius: BorderRadius.circular(12)),
-                    child: Row(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                            flex: 100,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                data.isImg2Img
-                                    ? Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'parent image',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .caption!
-                                                .copyWith(color: white400),
-                                          ),
-                                          const SizedBox(height: 4),
-                                          Image.file(
-                                            ImageFileUseCase
-                                                .getImageFileFromAssets(
-                                                    data.parentImgUrl!),
-                                            height: 100,
-                                          ),
-                                        ],
-                                      )
-                                    : const SizedBox(),
-                                const SizedBox(
-                                  height: 28,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'prompt',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .caption!
-                                          .copyWith(color: white400),
+                        data.isImg2Img
+                            ? Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'parent image',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .caption!
+                                        .copyWith(color: white400),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Image.file(
+                                    ImageFileUseCase.getImageFileFromAssets(
+                                        data.parentImgUrl!),
+                                    height: 100,
+                                  ),
+                                ],
+                              )
+                            : const SizedBox(),
+                        const SizedBox(
+                          height: 28,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 28),
+                            Wrap(
+                              alignment: WrapAlignment.start,
+                              runAlignment: WrapAlignment.start,
+                              spacing: 12,
+                              runSpacing: 12,
+                              children: data.imgUrlList
+                                  .map(
+                                    (String path) => Image.file(
+                                      ImageFileUseCase.getImageFileFromAssets(
+                                          path),
+                                      height: 200,
+                                      width: 200,
+                                      fit: BoxFit.cover,
                                     ),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    Wrap(children: [
-                                      ...data.prompt
-                                          .split(',')
-                                          .map(
-                                            (String word) => Container(
-                                                margin:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 2,
-                                                        vertical: 2),
-                                                decoration: BoxDecoration(
-                                                    color: zinc800,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8)),
-                                                child: TextButton(
-                                                  onPressed: () {
-                                                    //NOTE : prompt button
-                                                    searchWordNotifier
-                                                        .change(word);
-                                                  },
-                                                  child: Text(
-                                                    word,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1!
-                                                        .copyWith(
-                                                            color: white200),
-                                                  ),
-                                                )),
-                                          )
-                                          .toList(),
-                                    ])
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                OutlinedButton.icon(
-                                    style: OutlinedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
+                                  )
+                                  .toList(),
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              'prompt',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .caption!
+                                  .copyWith(color: white400),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Wrap(children: [
+                              ...data.prompt
+                                  .split(',')
+                                  .map(
+                                    (String word) => Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 2,
+                                            top: 4,
+                                            bottom: 2,
+                                            right: 2),
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 2, horizontal: 2),
+                                        decoration: BoxDecoration(
+                                            color: zinc800,
                                             borderRadius:
                                                 BorderRadius.circular(8)),
-                                        foregroundColor: Colors.indigoAccent,
-                                        backgroundColor: zinc500,
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 8)),
-                                    onPressed: () async {
-                                      final clip =
-                                          ClipboardData(text: data.prompt);
-
-                                      await Clipboard.setData(clip);
-                                    },
-                                    icon: const Icon(
-                                      CupertinoIcons
-                                          .rectangle_fill_on_rectangle_fill,
-                                      color: white200,
-                                    ),
-                                    label: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(4, 8, 4, 4),
-                                      child: Text(
-                                        'Copy Prompt',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .button!
-                                            .copyWith(color: white200),
-                                      ),
-                                    ))
-                              ],
-                            )),
+                                        child: TextButton(
+                                          style: TextButton.styleFrom(
+                                              foregroundColor:
+                                                  Colors.indigoAccent),
+                                          onPressed: () {
+                                            //NOTE : prompt button
+                                            searchWordNotifier.change(word);
+                                          },
+                                          child: Text(
+                                            word,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText1!
+                                                .copyWith(color: white200),
+                                          ),
+                                        )),
+                                  )
+                                  .toList(),
+                            ])
+                          ],
+                        ),
                         const SizedBox(
-                          width: 20,
+                          height: 20,
                         ),
-                        Expanded(
-                          flex: 256,
-                          child: Wrap(
-                            alignment: WrapAlignment.start,
-                            runAlignment: WrapAlignment.start,
-                            spacing: 12,
-                            runSpacing: 12,
-                            children: data.imgUrlList
-                                .map(
-                                  (String path) => Image.file(
-                                    ImageFileUseCase.getImageFileFromAssets(
-                                        path),
-                                    height: 200,
-                                    width: 200,
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                        ),
+                        OutlinedButton.icon(
+                            style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                                foregroundColor: Colors.indigoAccent,
+                                backgroundColor: zinc500,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 8)),
+                            onPressed: () async {
+                              final clip = ClipboardData(text: data.prompt);
+
+                              await Clipboard.setData(clip);
+                            },
+                            icon: const Icon(
+                              CupertinoIcons.rectangle_fill_on_rectangle_fill,
+                              color: white200,
+                            ),
+                            label: Padding(
+                              padding: const EdgeInsets.fromLTRB(4, 8, 4, 4),
+                              child: Text(
+                                'Copy Prompt',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .button!
+                                    .copyWith(color: white200),
+                              ),
+                            ))
                       ],
                     ),
                   ),
                   Positioned(
-                      top: 8,
-                      right: 8,
-                      child: Column(
-                        children: [
-                          IconButton(
-                            icon: const Icon(
-                              CupertinoIcons.trash,
-                              color: Colors.redAccent,
-                            ),
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  backgroundColor: zinc800,
-                                  content: Text(
-                                    'You want to remove this prompt and images?',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline6!
-                                        .copyWith(color: white200),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text(
-                                        'Cancel',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .button!
-                                            .copyWith(color: white400),
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        TempPromptInteractor
-                                            .removePromptAndFile(
-                                                data: data, notifier: notifier);
-                                        Navigator.pushNamed(
-                                            context, ViewScreen.id);
-                                      },
-                                      child: Text(
-                                        'Delete',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .button!
-                                            .copyWith(color: Colors.red),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
+                    top: 8,
+                    right: 8,
+                    child: Column(
+                      children: [
+                        IconButton(
+                          icon: const Icon(
+                            CupertinoIcons.trash,
+                            color: Colors.redAccent,
                           ),
-                          Text(
-                            'delete',
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption!
-                                .copyWith(color: white400),
-                          )
-                        ],
-                      )),
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                backgroundColor: zinc800,
+                                content: Text(
+                                  'You want to remove this prompt and images?',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline6!
+                                      .copyWith(color: white200),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text(
+                                      'Cancel',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .button!
+                                          .copyWith(color: white400),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      TempPromptInteractor.removePromptAndFile(
+                                          data: data, notifier: notifier);
+                                      Navigator.pushNamed(
+                                          context, ViewScreen.id);
+                                    },
+                                    child: Text(
+                                      'Delete',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .button!
+                                          .copyWith(color: Colors.red),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                        Text(
+                          'delete',
+                          style: Theme.of(context)
+                              .textTheme
+                              .caption!
+                              .copyWith(color: white400),
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
             )
