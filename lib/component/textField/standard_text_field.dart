@@ -6,14 +6,19 @@ class StandardTextField extends StatelessWidget {
     Key? key,
     required this.hintText,
     required this.onChange,
+    // required this.controller,
   }) : super(key: key);
 
   final String hintText;
   final Function onChange;
+  // final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
+    // final controller = TextEditingController();
+
     return TextField(
+      // controller: controller,
       onChanged: (value) => onChange(value),
       cursorColor: Colors.indigoAccent,
       style: Theme.of(context).textTheme.bodyText1!.copyWith(color: white200),

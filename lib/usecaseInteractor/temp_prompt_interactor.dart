@@ -5,7 +5,7 @@ import 'package:stable_diffusion_prompt_collector/usecase/image_file.dart';
 import 'package:stable_diffusion_prompt_collector/usecaseInteractor/prompt_file_interactor.dart';
 
 class TempPromptInteractor {
-  static Future addImageToTempPrompt({
+  static void addImageToTempPrompt({
     required TempPromptNotifier notifier,
     required bool isImg2Img,
     required List<String> pathList,

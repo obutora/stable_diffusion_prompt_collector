@@ -36,7 +36,8 @@ class StandardScaffold extends StatelessWidget {
             ),
             ListTile(
               trailing: IconButton(
-                  onPressed: () => Navigator.pushNamed(context, HomeScreen.id),
+                  onPressed: () =>
+                      Navigator.pushReplacementNamed(context, HomeScreen.id),
                   icon: const Icon(
                     CupertinoIcons.right_chevron,
                     color: white200,
@@ -48,7 +49,8 @@ class StandardScaffold extends StatelessWidget {
             ),
             ListTile(
               trailing: IconButton(
-                  onPressed: () => Navigator.pushNamed(context, ViewScreen.id),
+                  onPressed: () =>
+                      Navigator.pushReplacementNamed(context, ViewScreen.id),
                   icon: const Icon(
                     CupertinoIcons.right_chevron,
                     color: white200,

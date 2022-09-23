@@ -37,6 +37,7 @@ class ViewScreen extends HookConsumerWidget {
           style: Theme.of(context).textTheme.caption!.copyWith(color: white400),
         ),
         StandardTextField(
+            // controller: TextEditingController(),
             hintText: 'search words',
             onChange: (String word) {
               searchWordNotifier.change(word);

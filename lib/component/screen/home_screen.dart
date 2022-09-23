@@ -90,9 +90,11 @@ class HomeScreen extends HookConsumerWidget {
         ),
         const SizedBox(height: 8),
         StandardTextField(
+          // controller: controller,
           hintText: 'ex: Photo of foo.',
           onChange: (String prompt) {
             tempPromptNotifier.updatePrompt(prompt);
+            print(prompt);
           },
         ),
         const SizedBox(
@@ -108,6 +110,8 @@ class HomeScreen extends HookConsumerWidget {
             if (canAdd == CanAddPrompt.ok) {
               TempPromptInteractor.addBox(data: tempPrompt);
               tempPromptNotifier.clear();
+
+              // controller.clear();
 
               showDialog(
                 context: context,

@@ -1,9 +1,9 @@
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:stable_diffusion_prompt_collector/usecaseInteractor/temp_prompt_interactor.dart';
 
 import '../../provider/temp_prompt_data_provider.dart';
+import '../../usecaseInteractor/temp_prompt_interactor.dart';
 import '../theme/colors.dart';
 
 class CatchImageCard extends ConsumerWidget {
@@ -21,17 +21,17 @@ class CatchImageCard extends ConsumerWidget {
     bool isloading = false;
 
     return DropTarget(
-      onDragEntered: ((details) {}),
       onDragDone: ((details) async {
         if (isloading == false) {
           isloading = true;
-
           final pathList = details.files.map((e) => e.path).toList();
-          // tempPromptNotifier.addImgUrlList(pathList);
-          await TempPromptInteractor.addImageToTempPrompt(
+
+          TempPromptInteractor.addImageToTempPrompt(
               notifier: tempPromptNotifier,
               isImg2Img: isImg2Img,
               pathList: pathList);
+
+          Future.delayed(const Duration(milliseconds: 100));
 
           isloading = false;
         }
